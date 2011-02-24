@@ -1,4 +1,4 @@
-#!/usr/bin/ocaml
+
 open Sys;;
 
 let rec fibo i = if i <=1 then i else fibo(i-1)+fibo(i-2);;
