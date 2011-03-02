@@ -37,7 +37,7 @@ int main(int argc, char * argv[])
 	if (argc >1) 
 		n = atoi(argv[1]);
 	printf("fibo %d: %d\n",n,fibo(n));
-
+	return 0;
 }
 
 

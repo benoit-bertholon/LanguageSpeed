@@ -3,7 +3,7 @@
 import java.io.*;
 
 
-public class simpletrijava {
+public class readandparse {
 
 
 
@@ -12,27 +12,6 @@ public class simpletrijava {
 	static long res;
 
 
-	static  void simpletrijava(int list[])
-	{
-		int i,j,c=0;
-		for(i = 0 ; i < list.length; i++)
-		{
-			c =0;
-			for(j = i+1 ; j < list.length; j++)
-			{	
-				int t;
-				if(list[i]> list[j])
-				{	t=list[i];
-					list[i] = list[j];
-					list[j] = t;
-					c=1;
-				 }
-			}
-			if (c == 0){
-				return;}
-		}
-
-	}
 	
 	public static void  main(String[] argv)
 	{

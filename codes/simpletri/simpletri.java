@@ -3,7 +3,7 @@
 import java.io.*;
 
 
-public class simpletrijava {
+public class simpletri {
 
 
 
@@ -28,8 +28,6 @@ public class simpletrijava {
 					c=1;
 				 }
 			}
-			if (c == 0){
-				return;}
 		}
 
 	}

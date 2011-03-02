@@ -1,4 +1,4 @@
-public class fibojava
+public class fibo
 {
 
 
