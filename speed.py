@@ -15,7 +15,7 @@ codefolder="codes"
 langages=[
 {"name":"c","source":"<PRGM>.c","executable":"<PRGM>c","compile":"gcc -o <EXEC> <SRC> -O2","run":"./<EXEC> <ARGS>","clean":"rm <EXEC>"},
 {"name":"haskell","source":"<PRGM>.hs","executable":"<PRGM>hs","compile":"ghc --make <SRC> -o <EXEC> -O2","run":"./<EXEC> <ARGS>","clean":"rm <EXEC> <PRGM>.o <PRGM>.hi"},
-{"name":"java",	"source":"<PRGM>.java","executable":"<PRGM>","compile":"javac <SRC>","run":"java <EXEC> <ARGS>","clean":"rm <EXEC>"},
+{"name":"java",	"source":"<PRGM>.java","executable":"<PRGM>","compile":"javac <SRC>","run":"java <EXEC> <ARGS>","clean":"rm <PRGM>.class"},
 {"name":"ocaml","source":"<PRGM>.ml","executable":None,"compile":None,"run":"ocaml <SRC> <ARGS>","clean":None},
 {"name":"ocaml compile","source":"<PRGM>.ml",	"executable":"<PRGM>ml","compile":"ocamlopt <SRC> -o <EXEC>","run":"./<EXEC> <ARGS>","clean":"rm <EXEC> <PRGM>.cmx <PRGM>.cmi"},
 {"name":"perl",	"source":"<PRGM>.pl","executable":None,"compile":None,"run":"perl <SRC> <ARGS>","clean":None},
@@ -24,8 +24,8 @@ langages=[
 {"name":"php","source":"<PRGM>.php","executable":None,"compile":None,"run":"php <SRC> <ARGS>","clean":None}]
 #(program,[arguments],precmd,postcmd) liste d'arguemnts => plusieurs instances.
 program = [("fibo",["%s"%s for s in range(40,41)],None,None),
-("simpletri",["../../unsortedlist ../../sortedlist"],"codes/generate.unsorted.list.py 10000","rm unsortedlist sortedlist"),
-("readandparse",["../../unsortedlist ../../unsortedlist2"],"codes/generate.unsorted.list.py 10000","rm unsortedlist unsortedlist2")]
+("simpletri",["../../unsortedlist ../../sortedlist"],"codes/generate.unsorted.list.py 10000","rm ../../unsortedlist ../../sortedlist"),
+("readandparse",["../../unsortedlist ../../unsortedlist2"],"codes/generate.unsorted.list.py 10000","rm ../../unsortedlist ../../unsortedlist2")]
 
 
 
@@ -60,20 +60,38 @@ if __name__=="__main__":
 	parser = optparse.OptionParser(usage="usage: %prog [options]")
 	parser.add_option("-c" , "--clean" ,dest="clean",action="store_true",default=False,help="clean the directories")
 	parser.add_option("-v" , "--verbose" ,dest="verbose",default=False ,action='store_true',help="verbose mode")
+	parser.add_option("-l" , "--language" ,dest="lang",default=None,help="choose language [?] print possibility")
+	parser.add_option("-p" , "--program" ,dest="prog",default=None ,help="choose program [?] print possibility")
 	(option , arg ) = parser.parse_args(sys.argv)
 #	set_folder_right(option.dir,option.verbose)
+
+	if option.prog == "?":
+		for prog,args,precmd,postcmd in program:
+			print prog
+		exit(0)
+	if option.lang == "?":
+		for lang in langages:
+			print lang["name"]
+		exit(0)
+
+
 	
 
-
 	for prog,args,precmd,postcmd in program:
+		if option.prog != None and option.prog != prog:
+			continue
 		balisePRGM = Balise("PRGM",prog)
 		#preparation program
 		for lang in langages:
+			if option.lang != None and option.lang != lang["name"]:
+				continue
 			baliseSOURCE = Balise("SRC",lang["source"])
 			baliseEXEC = Balise("EXEC",lang["executable"])
 			#may be clean ???
 			if lang["clean"] != None:
+				os.chdir("codes/"+prog)
 				command(balise_recursive( lang["clean"],[balisePRGM,baliseSOURCE,baliseEXEC]),YELLOW,option.verbose)
+				os.chdir("../..")
 			if option.clean :
 				continue 
 
@@ -97,8 +115,8 @@ if __name__=="__main__":
 				COUL = RED
 				if ret == 0 :
 					COUL = GREEN
+					output = output + prog + " " + lang["name"] +" " +arg +" : " + "%f"%( t2-t1 ) + "\n"
 				print COUL + prog + " " + lang["name"] +" " +arg +" : " , t2-t1 , BLACK
-				output = output + prog + " " + lang["name"] +" " +arg +" : " + "%f"%( t2-t1 ) + "\n"
 			if lang["clean"] != None:
 				command(balise_recursive( lang["clean"],[balisePRGM,baliseSOURCE,baliseEXEC]),YELLOW,option.verbose)
 			if postcmd != None:

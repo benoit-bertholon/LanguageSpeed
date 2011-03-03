@@ -1,0 +1,24 @@
+fibo c 40 : 0.662285
+fibo haskell 40 : 2.635644
+fibo java 40 : 0.628289
+fibo ocaml 40 : 8.939819
+fibo ocaml compile 40 : 0.784945
+fibo perl 40 : 146.793625
+fibo python 40 : 61.954716
+fibo ruby 40 : 174.566347
+fibo php 40 : 84.323571
+simpletri c ../../unsortedlist ../../sortedlist : 0.179703
+simpletri haskell ../../unsortedlist ../../sortedlist : 1.192878
+simpletri java ../../unsortedlist ../../sortedlist : 0.436973
+simpletri ocaml ../../unsortedlist ../../sortedlist : 21.116517
+simpletri ocaml compile ../../unsortedlist ../../sortedlist : 6.995962
+simpletri perl ../../unsortedlist ../../sortedlist : 27.241373
+simpletri python ../../unsortedlist ../../sortedlist : 10.288780
+readandparse c ../../unsortedlist ../../unsortedlist2 : 0.005231
+readandparse haskell ../../unsortedlist ../../unsortedlist2 : 0.064953
+readandparse java ../../unsortedlist ../../unsortedlist2 : 0.229351
+readandparse ocaml ../../unsortedlist ../../unsortedlist2 : 5.823970
+readandparse ocaml compile ../../unsortedlist ../../unsortedlist2 : 2.405041
+readandparse perl ../../unsortedlist ../../unsortedlist2 : 0.013582
+readandparse python ../../unsortedlist ../../unsortedlist2 : 0.031936
+
