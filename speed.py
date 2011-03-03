@@ -3,6 +3,7 @@
 
 import time, os, sys, stat
 import optparse
+import subprocess
 
 RED ="\033[1;31m"
 GREEN ="\033[1;32m"
@@ -13,17 +14,17 @@ BLUE ="\033[1;34m"
 codefolder="codes"
 #liste des langages : (nom du langage, fichier source,fichier  executer, cmd de compile, cmd d'execution, cmd de nettoyage)
 langages=[
-{"name":"c","source":"<PRGM>.c","executable":"<PRGM>c","compile":"gcc -o <EXEC> <SRC> -O2","run":"./<EXEC> <ARGS>","clean":"rm <EXEC>"},
-{"name":"haskell","source":"<PRGM>.hs","executable":"<PRGM>hs","compile":"ghc --make <SRC> -o <EXEC> -O2","run":"./<EXEC> <ARGS>","clean":"rm <EXEC> <PRGM>.o <PRGM>.hi"},
-{"name":"java",	"source":"<PRGM>.java","executable":"<PRGM>","compile":"javac <SRC>","run":"java <EXEC> <ARGS>","clean":"rm <PRGM>.class"},
-{"name":"ocaml","source":"<PRGM>.ml","executable":None,"compile":None,"run":"ocaml <SRC> <ARGS>","clean":None},
-{"name":"ocaml compile","source":"<PRGM>.ml",	"executable":"<PRGM>ml","compile":"ocamlopt <SRC> -o <EXEC>","run":"./<EXEC> <ARGS>","clean":"rm <EXEC> <PRGM>.cmx <PRGM>.cmi"},
-{"name":"perl",	"source":"<PRGM>.pl","executable":None,"compile":None,"run":"perl <SRC> <ARGS>","clean":None},
-{"name":"python","source":"<PRGM>.py","executable":None,"compile":None,"run":"python <SRC> <ARGS>","clean":None},
-{"name":"ruby","source":"<PRGM>.rb","executable":None,"compile":None,"run":"ruby <SRC> <ARGS>","clean":None},
-{"name":"php","source":"<PRGM>.php","executable":None,"compile":None,"run":"php <SRC> <ARGS>","clean":None}]
+{"name":"c","source":"<PRGM>.c","executable":"<PRGM>c","compile":"gcc -o <EXEC> <SRC> -O2","run":"./<EXEC> <ARGS>","clean":"rm <EXEC>","version":"gcc --version"},
+{"name":"haskell","source":"<PRGM>.hs","executable":"<PRGM>hs","compile":"ghc --make <SRC> -o <EXEC> -O2","run":"./<EXEC> <ARGS>","clean":"rm <EXEC> <PRGM>.o <PRGM>.hi","version":"ghc --version"},
+{"name":"java",	"source":"<PRGM>.java","executable":"<PRGM>","compile":"javac <SRC>","run":"java <EXEC> <ARGS>","clean":"rm <PRGM>.class","version":"java -version"},
+{"name":"ocaml","source":"<PRGM>.ml","executable":None,"compile":None,"run":"ocaml <SRC> <ARGS>","clean":None,"version":"ocaml -version"},
+{"name":"ocaml compile","source":"<PRGM>.ml",	"executable":"<PRGM>ml","compile":"ocamlopt <SRC> -o <EXEC>","run":"./<EXEC> <ARGS>","clean":"rm <EXEC> <PRGM>.cmx <PRGM>.cmi","version":"ocaml -version"},
+{"name":"perl",	"source":"<PRGM>.pl","executable":None,"compile":None,"run":"perl <SRC> <ARGS>","clean":None,"version":"perl --version"},
+{"name":"python","source":"<PRGM>.py","executable":None,"compile":None,"run":"python <SRC> <ARGS>","clean":None,"version":"python --version"},
+{"name":"ruby","source":"<PRGM>.rb","executable":None,"compile":None,"run":"ruby <SRC> <ARGS>","clean":None,"version":"ruby --version"},
+{"name":"php","source":"<PRGM>.php","executable":None,"compile":None,"run":"php <SRC> <ARGS>","clean":None,"version":"php --version"}]
 #(program,[arguments],precmd,postcmd) liste d'arguemnts => plusieurs instances.
-program = [("fibo",["%s"%s for s in range(40,41)],None,None),
+program = [("fibo",["%s"%s for s in range(39,41)],None,None),
 ("simpletri",["../../unsortedlist ../../sortedlist"],"codes/generate.unsorted.list.py 10000","rm ../../unsortedlist ../../sortedlist"),
 ("readandparse",["../../unsortedlist ../../unsortedlist2"],"codes/generate.unsorted.list.py 10000","rm ../../unsortedlist ../../unsortedlist2")]
 
@@ -54,12 +55,15 @@ output = ""
 def command(cmd,couleur=BLACK,verbose=False):
 	if verbose:
 		print couleur + cmd + BLACK
-	return os.system(cmd)
+	proc = subprocess.Popen(cmd,shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+	ret = proc.wait()
+	return ret,proc
 
 if __name__=="__main__":
 	parser = optparse.OptionParser(usage="usage: %prog [options]")
 	parser.add_option("-c" , "--clean" ,dest="clean",action="store_true",default=False,help="clean the directories")
 	parser.add_option("-v" , "--verbose" ,dest="verbose",default=False ,action='store_true',help="verbose mode")
+	parser.add_option("-V" , "--version" ,dest="version",default=False ,action='store_true',help="print versions used")
 	parser.add_option("-l" , "--language" ,dest="lang",default=None,help="choose language [?] print possibility")
 	parser.add_option("-p" , "--program" ,dest="prog",default=None ,help="choose program [?] print possibility")
 	(option , arg ) = parser.parse_args(sys.argv)
@@ -73,7 +77,16 @@ if __name__=="__main__":
 		for lang in langages:
 			print lang["name"]
 		exit(0)
-
+	if option.version:
+		una = os.uname()
+		for i in una:
+			output = i + "\n" + output
+		for lang in langages:
+			ret,proc = command(lang["version"] ,YELLOW,option.verbose)
+			print "--------------------------------------------"
+			print lang["name"] + ":" + proc.stdout.read() + proc.stderr.read()
+		
+		exit(0)
 
 	
 
@@ -100,7 +113,7 @@ if __name__=="__main__":
 				command(balise_recursive( precmd,[balisePRGM,baliseSOURCE,baliseEXEC]),YELLOW,option.verbose)
 			#cd codes/prgm
 			os.chdir("codes/"+prog)
-			os.system("pwd")
+#			os.system("pwd")
 			if lang["compile"] != None:
 				command(balise_recursive( lang["compile"],[balisePRGM,baliseSOURCE,baliseEXEC]),YELLOW,option.verbose)
 
@@ -108,9 +121,8 @@ if __name__=="__main__":
 			for arg in args:
 				baliseARGS = Balise("ARGS",arg)
 				cmdline = balise_recursive( lang["run"],[balisePRGM,baliseSOURCE,baliseEXEC,baliseARGS])
-				print cmdline 
 				t1 = time.time()
-				ret = command(cmdline,BLUE,option.verbose)
+				ret,proc = command(cmdline,BLUE,option.verbose)
 				t2 = time.time()
 				COUL = RED
 				if ret == 0 :
@@ -124,5 +136,24 @@ if __name__=="__main__":
 			os.chdir("../..")
 
 #	os.system("make -C "+codefolder+ " clean")
+	una = os.uname()
+	
+	for i in una:
+		output = i + "\n" + output
+		
+	una = os.uname()
+	for i in una:
+		output = i + "\n" + output
+	for lang in langages:
+		proc = subprocess.Popen(lang["version"] ,shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+		output = output + "--------------------------------------------\n"
+		output = output + lang["name"] + ":" + proc.stdout.read() + proc.stderr.read()
+			
+
+
 	print output
+	if option.prog == None  and option.lang == None:
+		f = open("results/" + una[1],"w")
+		f.write(output)
+		f.close()
 

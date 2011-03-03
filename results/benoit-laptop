@@ -1,0 +1,80 @@
+x86_64
+#16 SMP Fri Nov 26 11:55:36 GMT 2010
+2.6.37-6-vaioz
+benoit-laptop
+Linux
+x86_64
+#16 SMP Fri Nov 26 11:55:36 GMT 2010
+2.6.37-6-vaioz
+benoit-laptop
+Linux
+fibo c 39 : 0.439331
+fibo c 40 : 0.679394
+fibo haskell 39 : 1.672825
+fibo haskell 40 : 2.720065
+fibo java 39 : 0.431621
+fibo java 40 : 0.634562
+fibo ocaml 39 : 5.674536
+fibo ocaml 40 : 9.152521
+fibo ocaml compile 39 : 0.524016
+fibo ocaml compile 40 : 0.818380
+fibo perl 39 : 91.800467
+fibo perl 40 : 151.285128
+fibo python 39 : 39.016824
+fibo python 40 : 63.352956
+fibo ruby 39 : 110.067937
+fibo ruby 40 : 178.412835
+fibo php 39 : 52.706612
+fibo php 40 : 84.626061
+simpletri c ../../unsortedlist ../../sortedlist : 0.196793
+simpletri haskell ../../unsortedlist ../../sortedlist : 1.184144
+simpletri java ../../unsortedlist ../../sortedlist : 0.457597
+simpletri ocaml ../../unsortedlist ../../sortedlist : 3.141774
+simpletri ocaml compile ../../unsortedlist ../../sortedlist : 0.726802
+simpletri perl ../../unsortedlist ../../sortedlist : 25.554860
+simpletri python ../../unsortedlist ../../sortedlist : 10.406931
+readandparse c ../../unsortedlist ../../unsortedlist2 : 0.005657
+readandparse haskell ../../unsortedlist ../../unsortedlist2 : 0.061939
+readandparse java ../../unsortedlist ../../unsortedlist2 : 0.245325
+readandparse ocaml ../../unsortedlist ../../unsortedlist2 : 0.433269
+readandparse ocaml compile ../../unsortedlist ../../unsortedlist2 : 0.086122
+readandparse perl ../../unsortedlist ../../unsortedlist2 : 0.015310
+readandparse python ../../unsortedlist ../../unsortedlist2 : 0.058674
+--------------------------------------------
+c:gcc (Ubuntu/Linaro 4.4.4-14ubuntu5) 4.4.5
+Copyright (C) 2010 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+--------------------------------------------
+haskell:The Glorious Glasgow Haskell Compilation System, version 6.12.1
+--------------------------------------------
+java:java version "1.6.0_20"
+OpenJDK Runtime Environment (IcedTea6 1.9.7) (6b20-1.9.7-0ubuntu1)
+OpenJDK 64-Bit Server VM (build 19.0-b09, mixed mode)
+--------------------------------------------
+ocaml:The Objective Caml toplevel, version 3.11.2
+--------------------------------------------
+ocaml compile:The Objective Caml toplevel, version 3.11.2
+--------------------------------------------
+perl:
+This is perl, v5.10.1 (*) built for x86_64-linux-gnu-thread-multi
+(with 40 registered patches, see perl -V for more detail)
+
+Copyright 1987-2009, Larry Wall
+
+Perl may be copied only under the terms of either the Artistic License or the
+GNU General Public License, which may be found in the Perl 5 source kit.
+
+Complete documentation for Perl, including FAQ lists, should be found on
+this system using "man perl" or "perldoc perl".  If you have access to the
+Internet, point your browser at http://www.perl.org/, the Perl Home Page.
+
+--------------------------------------------
+python:Python 2.6.6
+--------------------------------------------
+ruby:ruby 1.8.7 (2010-06-23 patchlevel 299) [x86_64-linux]
+--------------------------------------------
+php:PHP 5.3.3-1ubuntu9.3 with Suhosin-Patch (cli) (built: Jan 12 2011 16:07:38) 
+Copyright (c) 1997-2009 The PHP Group
+Zend Engine v2.3.0, Copyright (c) 1998-2010 Zend Technologies
